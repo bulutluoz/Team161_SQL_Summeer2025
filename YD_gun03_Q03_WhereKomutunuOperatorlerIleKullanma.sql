@@ -75,25 +75,29 @@ WHERE sehir > 'D';
  
  /*  
 ========================  ORNEK  ========================
- People tablosunda yasi 35 den kucuk veya 35'e esit olan kişilerin bilgilerini listeleyin.
+ People tablosunda yasi 35 den kucuk veya 35'e esit olan kişilerin 
+ bilgilerini listeleyin.
 =========================================================
  */
  
+SELECT *
+FROM people
+WHERE yas <= 35;
 
-
-
-
- 
- 
  /*  
 ========================  ORNEK  ========================
  People tablosunda sehri Trabzon olmayan kişilerin bilgilerini listeleyin.
 =========================================================
  */
  
+ SELECT *
+ FROM people
+ WHERE sehir != 'trabzon';
 
 
-
+ SELECT *
+ FROM people
+ WHERE sehir <> 'trabzon';
 
  
  /*  
@@ -102,7 +106,9 @@ WHERE sehir > 'D';
 =========================================================
  */
  
-
+ SELECT *
+ FROM people
+ WHERE soyisim <> 'gunes';
 
 
 
@@ -124,27 +130,33 @@ OR (Veya): Birden fazla koşuldan en az birinin sağlanması gereken durumlarda 
 WHERE NOT: Belirli bir koşulun tersini almak için kullanılır.
 
 */
+
+ SELECT *
+ FROM people
+ WHERE NOT sehir = 'trabzon';
+
  
  /*  
 ========================  ORNEK  ========================
- People tablosunda 29 yaşından büyük olan ve Ankara'da yaşayan kişileri listeleyin.
+ People tablosunda 29 yaşından büyük olan 
+ ve Ankara'da yaşayan kişileri listeleyin.
 =========================================================
  */
  
+ SELECT *
+ FROM people
+ WHERE yas>29 AND sehir = 'Ankara' ;
 
-
-
-
- 
- 
  /*  
 ========================  ORNEK  ========================
-People tablosunda Adı 'Fatma' olan ve Bursa'da yaşayan kişilerin yasini listeleyin
+People tablosunda Adı 'Fatma' olan 
+ve Bursa'da yaşayan kişilerin yasini listeleyin
 =========================================================
  */
  
-
-
+SELECT yas
+FROM people
+WHERE isim='Fatma' AND sehir= 'Bursa' ;
 
 
 
@@ -155,33 +167,33 @@ People tablosunda Adı 'Fatma' olan ve Bursa'da yaşayan kişilerin yasini liste
 =========================================================
  */
  
+SELECT *
+FROM people
+WHERE isim = 'Ayse' OR soyisim = 'Kaya';
 
-
-
-
-
- 
- 
- 
  /*  
 ========================  ORNEK  ========================
  People tablosunda yaşı 22 veya 35 olan kişileri listeleyin
 =========================================================
  */
  
-
-
-
+SELECT *
+FROM people
+WHERE yas = 22 OR yas=35;
 
  
  
  /*  
 ========================  ORNEK  ========================
- People tablosunda 29 yaşından büyük olan veya Ankara'da yaşayan kişileri listeleyin
+ People tablosunda 29 yaşından büyük olan 
+ veya Ankara'da yaşayan kişileri listeleyin
 =========================================================
  */
  
-
+ 
+SELECT *
+FROM people
+WHERE yas > 29 OR sehir='Ankara';
 
 
 
@@ -194,11 +206,15 @@ People tablosunda Adı 'Fatma' olan ve Bursa'da yaşayan kişilerin yasini liste
 =========================================================
  */
 
+SELECT *
+FROM people
+WHERE sehir='Istanbul' OR sehir='Ankara' OR sehir='Izmir';
 
 
 
-
-
+SELECT *
+FROM people
+WHERE sehir IN ('Istanbul','Ankara','Izmir');
  
  
   /* 
@@ -238,38 +254,40 @@ People tablosunda Adı 'Fatma' olan ve Bursa'da yaşayan kişilerin yasini liste
 =========================================================
  */
  
+SELECT *
+FROM people
+WHERE yas BETWEEN 25 AND 35;
 
-
-
-
- 
- 
- /*  
-========================  ORNEK  ========================
- People tablosunda yaşı 25 ile 35 arasında olan ve Ankara'da yaşayan kişileri listeleyin.
-=========================================================
- */
-
-
-
-
-
+SELECT *
+FROM people
+WHERE yas>= 25 AND yas<=35;
 
  
  
  /*  
 ========================  ORNEK  ========================
- People tablosunda ismi Adem ile Aylin arasında olan ve Ankara'da yaşayan kişileri listeleyin.
+ People tablosunda yaşı 25 ile 35 arasında olan 
+ ve Ankara'da yaşayan kişileri listeleyin.
+=========================================================
+ */
+
+SELECT *
+FROM people
+WHERE yas BETWEEN 25 AND 35 AND sehir ='Ankara';
+
+ 
+ /*  
+========================  ORNEK  ========================
+ People tablosunda ismi Adem ile Aylin arasında olan 
+ ve Ankara'da yaşayan kişileri listeleyin.
 =========================================================
  */
  
 
-
-
-
-
-
-
+SELECT *
+FROM People
+WHERE isim BETWEEN 'Adem' AND 'Aylin'
+      AND sehir = 'Ankara';
 
 
  
@@ -279,11 +297,9 @@ People tablosunda Adı 'Fatma' olan ve Bursa'da yaşayan kişilerin yasini liste
 =========================================================
  */
  
-
-
-
-
-
+SELECT *
+FROM people
+WHERE isim NOT BETWEEN 'K' AND 'T' ;
 
 
  /*
@@ -291,7 +307,8 @@ People tablosunda Adı 'Fatma' olan ve Bursa'da yaşayan kişilerin yasini liste
                   IN OPERATORU
 ===============================================
 
- Belirli bir sütunun değerlerini, verilen bir listedeki değerler ile karşılaştırmak için kullanılır
+ Belirli bir sütunun değerlerini, 
+ verilen bir listedeki değerler ile karşılaştırmak için kullanılır
  
  Bu operatör, sorgulanacak değerlerin bir listesini parantez içinde alır 
  ve belirtilen sütunun değeri bu listedeki herhangi bir değerle eşleşirse, 
@@ -312,12 +329,10 @@ WHERE sütun_adi IN (değer1, değer2, ..., değerN);
  */
  
 
+SELECT *
+FROM People
+WHERE sehir IN ('İstanbul', 'Ankara', 'İzmir');
 
-
-
-
-
- 
  
   /*  
 ========================  ORNEK  ========================
@@ -325,11 +340,9 @@ WHERE sütun_adi IN (değer1, değer2, ..., değerN);
 =========================================================
  */
  
-
-
-
-
-
+SELECT *
+FROM people
+WHERE isim IN ('Ahmet',  'Mehmet',  'Ayse' );
 
  
  /*
@@ -351,35 +364,29 @@ WHERE NOT sütun_adı = 1;
  
   /*  
 ========================  ORNEK  ========================
-  Kisiler tablosundan  İstanbul'da yaşamayan kişileri listeleyiniz.
-
+  Kisiler tablosundan İstanbul'da yaşamayan kişileri listeleyiniz.
 =========================================================
  */
  
+SELECT *
+FROM people
+WHERE NOT sehir= 'İstanbul';
 
 
-
-
-
-
-
-
-
-
+SELECT *
+FROM people
+WHERE sehir != 'İstanbul';
  
- 
-  /*  
+/*  
 ========================  ORNEK  ========================
  people tablosundan 30 yaşından büyük olmayan kişileri listeleyiniz.
 =========================================================
  */
 
 
-
-
-
-
-
+SELECT *
+FROM people
+WHERE NOT yas >30 ;
 
  
   /*  
@@ -388,4 +395,11 @@ WHERE NOT sütun_adı = 1;
 =========================================================
  */ 
  
+
+SELECT *
+FROM people
+WHERE NOT soyisim IN ( 'Yılmaz','Kara'); 
+ 
+ 
+-- Turkce kararkterlerde dikkatli olmak gerekiyor 'Yılmaz' ve 'Yilmaz' farkli metinlerdir
 
