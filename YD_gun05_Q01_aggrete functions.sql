@@ -340,7 +340,8 @@ FROM tablo_adı;
 =========================================================
  */
  
-
+SELECT MIN(birim_fiyati) AS "En Dusuk Birim Fiyat"
+FROM satis_raporu;
  
 
  /*  
@@ -349,7 +350,8 @@ FROM tablo_adı;
 =========================================================
  */
 
-
+SELECT MIN(satis_tarihi) AS "En eski tarih" , MAX(satis_tarihi) AS "En yeni tarih"
+FROM satis_raporu;
  
 
  /*  
@@ -357,4 +359,7 @@ FROM tablo_adı;
  Satis raporu tablosuna gore tek seferde en fazla satilan urun miktari nedir? 
 =========================================================
  */
+ 
+SELECT MAX(satis_miktari) AS "tek seferde en fazla satilan urun miktari"
+FROM satis_raporu; 
  
