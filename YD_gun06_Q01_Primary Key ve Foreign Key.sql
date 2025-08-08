@@ -280,11 +280,13 @@ INSERT urunler VALUES ('123456','123456789');
  */
 
 
-
-
-
-
-
+CREATE TABLE ogrenci
+(
+	ogrenci_no INT PRIMARY KEY,
+    isim VARCHAR(50),
+    soyisim VARCHAR(50)
+    
+);
 
 
  /*  
@@ -295,24 +297,36 @@ INSERT urunler VALUES ('123456','123456789');
 =========================================================
  */
 
-
-
-
-
-
-
+CREATE TABLE adresler
+(
+	ogrenci_no INT,
+    sehir VARCHAR(50),
+    ilce VARCHAR(50),
+    sokak VARCHAR(50),
+    ev_no VARCHAR(50),
+    FOREIGN KEY (ogrenci_no) REFERENCES ogrenci(ogrenci_no)
+);
 
 
  /*  
 ========================  ORNEK  ========================
- 3- Ogretmen tablosu olusturun. 
+ 3- Ogretmenler tablosu olusturun. 
     Tabloda ogretmen_id, isim, soyisim  ve ders_adi field'lari olsun
     ve ogretmen_id Primary Key olsun
 =========================================================
  */
 
 -- onceki ogretmenler tablosunu silin
+DROP TABLE ogretmenler;
 
+
+CREATE TABLE ogretmenler
+(
+	ogretmen_id INT PRIMARY KEY,
+    isim VARCHAR(50),
+    soyisim VARCHAR(50),
+    ders_adi VARCHAR(50)
+);
 
 
  /*  
@@ -327,11 +341,15 @@ INSERT urunler VALUES ('123456','123456789');
  */
  
 
-
-
-
-
-
+ CREATE TABLE dersler (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ogrenci_no INT,
+    ders_adi VARCHAR(50),
+    ortalama_not DECIMAL(4,2),
+    ogretmen_id INT,
+    FOREIGN KEY (ogrenci_no) REFERENCES ogrenci(ogrenci_no),
+    FOREIGN KEY (ogretmen_id) REFERENCES ogretmenler(ogretmen_id)
+);
 
 
 
@@ -342,3 +360,103 @@ INSERT urunler VALUES ('123456','123456789');
  */
 
 -- ogrenci tablosuna NULL icermeyen kayitlar ekleyin
+
+INSERT INTO ogrenci VALUES
+(101, 'Ali', 'Yılmaz'),
+(103, 'Ece', 'Kaya'),
+(107, 'Mehmet', 'Yılmaz'),
+(109, 'Mert', 'Demir'),
+(112, 'Ahmet', 'Kurt'),
+(118, 'Buse', 'Kaya'),
+(123, 'Emre', 'Yıldız'),
+(129, 'Elif', 'Yılmaz'),
+(131, 'Can', 'Demir'),
+(137, 'Burcu', 'Kaya'),
+(141, 'Mert', 'Yıldız'),
+(145, 'Buse', 'Kurt'),
+(151, 'Deniz', 'Yılmaz'),
+(157, 'Ece', 'Kaya'),
+(160, 'Buse', 'Demir');
+
+SELECT * 
+FROM ogrenci;
+
+
+INSERT INTO adresler VALUES
+(101, 'Ankara', 'Çankaya', 'Gül Sokak', '12'),
+(103, 'Ankara', 'Yenimahalle', 'Meşe Sokak', '5'),
+(107, 'Ankara', 'Sincan', 'Lale Sokak', '8'),
+(109, 'Ankara', 'Çankaya', 'Menekşe Sokak', '22'),
+(112, 'Ankara', 'Yenimahalle', 'Çamlık Sokak', '18'),
+(118, 'Ankara', 'Sincan', 'Papatya Sokak', '3'),
+(123, 'Ankara', 'Çankaya', 'Karanfil Sokak', '19'),
+(129, 'Ankara', 'Yenimahalle', 'Zambak Sokak', '11'),
+(131, 'Ankara', 'Sincan', 'Begonya Sokak', '16'),
+(137, 'Ankara', 'Çankaya', 'Orkide Sokak', '7'),
+(141, 'Ankara', 'Yenimahalle', 'Nergis Sokak', '4'),
+(145, 'Ankara', 'Sincan', 'Sümbül Sokak', '10'),
+(151, 'Ankara', 'Çankaya', 'Gül Sokak', '2'),
+(157, 'Ankara', 'Yenimahalle', 'Meşe Sokak', '21'),
+(160, 'Ankara', 'Sincan', 'Lale Sokak', '9');
+
+SELECT * 
+FROM adresler;
+
+INSERT INTO ogretmenler VALUES
+(11, 'Ahmet', 'Yıldız', 'Matematik'),
+(12, 'Zeynep', 'Demir', 'Matematik'),
+(13, 'Kerem', 'Balcı', 'Matematik'),
+(14, 'Mehmet', 'Koç', 'Fizik'),
+(15, 'Ayşe', 'Çetin', 'Fizik'),
+(16, 'Ali', 'Kurt', 'Kimya'),
+(17, 'Merve', 'Aslan', 'İngilizce'),
+(18, 'Burak', 'Şahin', 'İngilizce'),
+(19, 'Elif', 'Sarı', 'Tarih'),
+(20, 'Can', 'Yılmaz', 'Coğrafya');
+
+SELECT * 
+FROM ogretmenler;
+
+
+INSERT INTO dersler (ogrenci_no, ders_adi, ortalama_not, ogretmen_id) VALUES
+(101, 'Matematik', 85.5, 11),
+(101, 'Fizik', 78.0, 14),
+(103, 'Matematik', 72.5, 12),
+(103, 'Tarih', 91.0, 19),
+(107, 'İngilizce', 75.0, 17),
+(107, 'Kimya', 82.0, 16),
+(109, 'Matematik', 69.5, 13),
+(109, 'Fizik', 74.0, 15),
+(112, 'İngilizce', 80.0, 18),
+(112, 'Coğrafya', 88.5, 20),
+(118, 'Matematik', 77.0, 12),
+(123, 'Tarih', 84.0, 19),
+(123, 'Kimya', 90.0, 16),
+(129, 'İngilizce', 86.0, 17),
+(129, 'Matematik', 92.0, 11),
+(131, 'Fizik', 95.0, 14),
+(131, 'Coğrafya', 89.0, 20),
+(137, 'İngilizce', 78.5, 18),
+(141, 'Matematik', 85.0, 13),
+(145, 'Tarih', 79.0, 19),
+(151, 'Kimya', 81.0, 16),
+(157, 'Fizik', 90.0, 15),
+(160, 'İngilizce', 83.0, 17),
+(160, 'Fizik', 87.0, 15),
+(101, 'Coğrafya', 76.5, 20),
+(118, 'Matematik', 84.0, 11),
+(145, 'İngilizce', 88.0, 18),
+(151, 'Matematik', 74.0, 12),
+(129, 'Fizik', 91.0, 14),
+(137, 'Tarih', 89.0, 19);
+
+SELECT * 
+FROM dersler;
+
+
+
+
+
+
+
+
