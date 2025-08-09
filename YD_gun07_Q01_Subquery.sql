@@ -337,12 +337,75 @@ WHERE ogrenci_no = 103;
 -- yanina da isim ve soyisimlerini yazdirin
 
 
-SELECT ogrenci_no, sokak, ev_no
+SELECT ogrenci_no, sokak, ev_no , (	SELECT isim
+									FROM ogrenci
+									WHERE adresler.ogrenci_no = ogrenci.ogrenci_no) AS isim, 
+                                    (SELECT soyisim
+									FROM ogrenci
+									WHERE adresler.ogrenci_no = ogrenci.ogrenci_no) AS soyisim
 FROM adresler
 WHERE ilce = 'Sincan';
 
 
 -- 107 numarali ogrencinin isim ve soyismini yazdirin
+
+SELECT isim, soyisim
+FROM ogrenci
+WHERE ogrenci_no = 107;
+
+/*
+	Select satirinda subquery konusuna ekstra soru cozumu icin 
+    1️⃣ Tablo Oluşturma
+sql
+Kopyala
+Düzenle
+CREATE TABLE Customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    city VARCHAR(50)
+);
+
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    amount DECIMAL(10, 2),
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+2️⃣ Örnek Veri Ekleme
+sql
+Kopyala
+Düzenle
+INSERT INTO Customers (customer_id, name, city) VALUES
+(1, 'Ahmet', 'İstanbul'),
+(2, 'Ayşe', 'Ankara'),
+(3, 'Mehmet', 'İzmir'),
+(4, 'Fatma', 'İstanbul'),
+(5, 'Ali', 'Bursa');
+
+INSERT INTO Orders (order_id, customer_id, order_date, amount) VALUES
+(101, 1, '2025-01-05', 500.00),
+(102, 1, '2025-02-10', 300.00),
+(103, 2, '2025-02-15', 150.00),
+(104, 3, '2025-03-01', 700.00),
+(105, 4, '2025-03-05', 250.00),
+(106, 5, '2025-04-01', 400.00);
+3️⃣ Subquery ile Çözebileceğin 5 Soru
+Toplam harcaması 400’den fazla olan müşterilerin isimlerini getir.
+(Subquery ile Orders tablosundan toplamları al, Customers tablosuyla eşleştir.)
+
+İstanbul’da yaşayan ve siparişi olan müşterilerin isimlerini getir.
+(Subquery ile İstanbul müşterilerini bulup Orders’taki customer_id ile eşleştir.)
+
+Tüm müşteriler arasında en yüksek sipariş tutarını veren müşterinin adını getir.
+(Subquery ile max(amount) bul, sonra Customers tablosundan ismini çek.)
+
+Sipariş sayısı 1’den fazla olan müşterilerin isimlerini getir.
+(Subquery ile group by + count kullan, Customers ile bağla.)
+
+Tutarı ortalama sipariş tutarından yüksek olan siparişleri ve müşteri isimlerini getir.
+(Subquery ile avg(amount) hesapla, amount > ortalama olanları listele.)
+*/
 
 /* 
 ======================== EXISTS CONDITION ===========================
