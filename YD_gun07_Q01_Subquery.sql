@@ -428,18 +428,42 @@ yapilmasini saglar.
 =========================================================
  */
  
+CREATE TABLE mayis_satislar
+(
+urun_id int,
+musteri_isim varchar(50),
+urun_isim varchar(50)
+);
+
+INSERT INTO mayis_satislar VALUES (10, 'Mark', 'Honda');
+INSERT INTO mayis_satislar VALUES (10, 'Mark', 'Honda');
+INSERT INTO mayis_satislar VALUES (20, 'John', 'Toyota');
+INSERT INTO mayis_satislar VALUES (30, 'Amy', 'Ford');
+INSERT INTO mayis_satislar VALUES (20, 'Mark', 'Toyota');
+INSERT INTO mayis_satislar VALUES (10, 'Adem', 'Honda');
+INSERT INTO mayis_satislar VALUES (40, 'John', 'Hyundai');
+INSERT INTO mayis_satislar VALUES (20, 'Eddie', 'Toyota');
+
+CREATE TABLE nisan_satislar
+(
+urun_id int,
+musteri_isim varchar(50),
+urun_isim varchar(50)
+);
+
+INSERT INTO nisan_satislar VALUES (10, 'Hasan', 'Honda');
+INSERT INTO nisan_satislar VALUES (10, 'Kemal', 'Honda');
+INSERT INTO nisan_satislar VALUES (20, 'Ayse', 'Toyota');
+INSERT INTO nisan_satislar VALUES (50, 'Yasar', 'Volvo');
+INSERT INTO nisan_satislar VALUES (20, 'Mine', 'Toyota');
+
+SELECT * 
+FROM mayis_satislar;
 
 
-
-
-
-
-
-
+SELECT * 
+FROM nisan_satislar;
  
- 
-
-
 
  /*  
 ========================  ORNEK  ========================
@@ -449,12 +473,23 @@ yapilmasini saglar.
 =========================================================
  */
  
+ -- gozumuzle baktik, her iki ayda ortak olan satis id'leri 10 ve 20
  
+ -- urun_id si 10 veya 20 olan urunleri mayis ayinda alan musteri isimleri
+ 
+SELECT musteri_isim
+FROM mayis_satislar
+WHERE urun_id IN (SELECT urun_id
+				  FROM nisan_satislar
+                  WHERE nisan_satislar.urun_id = mayis_satislar.urun_id);
 
 
 
-
-
+SELECT musteri_isim
+FROM mayis_satislar
+WHERE EXISTS (SELECT urun_id
+			  FROM nisan_satislar
+			  WHERE nisan_satislar.urun_id = mayis_satislar.urun_id);
  
  
 
@@ -464,4 +499,29 @@ yapilmasini saglar.
  ve mayis ayinda o urunu alan müşteri isimlerini görüntüleyin.
 =========================================================
  */
+ 
+ 
+-- gozumuzle mayis ayinda olup, nisan ayinda olmayan id'ler. 30,40
+-- 30 ve 40 numarali urun id'sine sahip urunleri
+-- mayis ayinda alan kisilerin musteri isimleri
+
+
+SELECT musteri_isim
+FROM mayis_satislar
+WHERE urun_id NOT IN (	SELECT urun_id
+						FROM nisan_satislar
+						WHERE nisan_satislar.urun_id = mayis_satislar.urun_id);
+
+
+
+SELECT musteri_isim
+FROM mayis_satislar
+WHERE NOT EXISTS (	SELECT urun_id
+					FROM nisan_satislar
+					WHERE nisan_satislar.urun_id = mayis_satislar.urun_id);
+ 
+ 
+ 
+ 
+ 
  
