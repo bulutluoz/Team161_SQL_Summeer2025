@@ -152,7 +152,7 @@ kullanmaniz gerekir?
  
  SELECT isim, soyisim, ders_adi,(SELECT AVG(ortalama_not)
 								 FROM dersler
-								 WHERE ogretmenler.ogretmen_id = dersler.ogretmen_id)
+								 WHERE ogretmenler.ogretmen_id = dersler.ogretmen_id) AS ogretmenin_genel_not_ortalamasi
 FROM ogretmenler;                                 
  
  
@@ -200,10 +200,16 @@ GROUP BY ogretmen_id;
 =========================================================
  */
  
+SELECT isim, soyisim, ders_adi, (SELECT MAX(ortalama_not)
+								 FROM dersler
+                                 WHERE ogretmenler.ogretmen_id = dersler.ogretmen_id) AS ogretmenin_verdigi_MAX_not
+FROM ogretmenler;
 
 
 
-
+SELECT ogretmen_id, MAX(ortalama_not)
+FROM dersler
+GROUP BY ogretmen_id;
 
 
 
@@ -215,9 +221,16 @@ GROUP BY ogretmen_id;
  */
  
  
+SELECT isim, soyisim, ders_adi , (	SELECT COUNT(ogretmen_id)
+									FROM dersler
+									WHERE ogretmenler.ogretmen_id = dersler.ogretmen_id) AS ogretmenden_ders_alan_ogrenci_sayisi
+FROM ogretmenler;
 
+-- 11 numarali ogretmenin dersini alan kac ogrenci oldugunu listeleyen bir QUERY yazin.
 
-
+SELECT COUNT(ogretmen_id)
+FROM dersler
+WHERE ogretmen_id = 11;
 
 
  
@@ -230,22 +243,38 @@ GROUP BY ogretmen_id;
  */
  
  
+SELECT isim, soyisim, ders_adi,(SELECT COUNT(ogrenci_no)
+								FROM dersler
+								WHERE ogretmenler.ogretmen_id = dersler.ogretmen_id) AS ogretmenden_ders_alan_ogrenci_sayisi
+FROM ogretmenler
+WHERE ders_adi = 'matematik';
 
 
-
-
+-- 11 numarali ogretmenin dersini alan ogrenci sayisi
+SELECT COUNT(ogrenci_no)
+FROM dersler
+WHERE ogretmen_id = 11;
 
 
  /*  
 ========================  ORNEK  ========================
- Her bir ogrencinin ismini, soyismini ve kac ders aldigini yazdirin.
+ Her bir ogrencinin ismini, soyismini 
+ ve kac ders aldigini yazdirin.
 =========================================================
  */
  
+SELECT isim, soyisim , (SELECT COUNT(ogrenci_no) 
+						FROM dersler
+						WHERE ogrenci.ogrenci_no = dersler.ogrenci_no) AS "aldigi ders sayisi"
+FROM ogrenci; 
 
 
 
+-- 101 numarali ogrencinin kac ders aldigini yazdirin.
 
+SELECT COUNT(ogrenci_no) 
+FROM dersler
+WHERE ogrenci_no = 101;
 
 
 
@@ -256,27 +285,64 @@ GROUP BY ogretmen_id;
 =========================================================
  */
  
- 
+SELECT ogrenci_no, isim, soyisim, ( SELECT AVG(ortalama_not)
+									FROM dersler
+									WHERE ogrenci.ogrenci_no = dersler.ogrenci_no) AS "genel not ortalamasi"
+FROM ogrenci
+WHERE soyisim = 'Kaya';
 
 
 
-
-
+-- 103 numarali ogrencinin aldigi tum derslerin genel not ortalamasini
+SELECT AVG(ortalama_not)
+FROM dersler
+WHERE ogrenci_no = 103;
 
  
  /*  
 ========================  ORNEK  ========================
- mi c ile l arasinda olan ogrencilerin
-ismini, soyismini ve aldigi dersler icinde en yuksek ortalamaya sahip olan dersin notunu yazdirin.
+ Ismi c ile l arasinda olan ogrencilerin ismini, soyismini 
+ ve aldigi dersler icinde en yuksek ortalamaya sahip olan dersin notunu yazdirin.
 =========================================================
  */
  
- 
+SELECT isim, soyisim, (	SELECT MAX(ortalama_not)
+						FROM dersler
+						WHERE ogrenci.ogrenci_no = dersler.ogrenci_no) AS "ogrencinin MAX ders notu"
+FROM ogrenci
+WHERE isim BETWEEN 'c' AND 'l';
 
 
+-- 103 numarali ogrencinin aldigi dersler icinde en yuksek ortalamaya sahip olan dersin notunu
+SELECT MAX(ortalama_not)
+FROM dersler
+WHERE ogrenci_no = 103;
 
 
- 
+-- tum ogrencilerin no, isim,soyisim ve ilcelerini listeleyin
+
+SELECT ogrenci_no, isim, soyisim , (SELECT ilce
+									FROM adresler
+									WHERE ogrenci.ogrenci_no = adresler.ogrenci_no)
+FROM ogrenci;
+
+
+-- 103 numarali ogrencinin ilcesini yazdirin
+SELECT ilce
+FROM adresler
+WHERE ogrenci_no = 103;
+
+
+-- Sincan'da oturan ogrencilerin ogrenci_no, sokak adi ve daire no'larini
+-- yanina da isim ve soyisimlerini yazdirin
+
+
+SELECT ogrenci_no, sokak, ev_no
+FROM adresler
+WHERE ilce = 'Sincan';
+
+
+-- 107 numarali ogrencinin isim ve soyismini yazdirin
 
 /* 
 ======================== EXISTS CONDITION ===========================
