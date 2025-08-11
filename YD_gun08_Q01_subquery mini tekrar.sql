@@ -92,6 +92,20 @@ FROM students;
 
 -- Her bölümun adini, başkanını ve bolumdeki ogrenci sayisini listeleyin.
 
+SELECT department_name, head_of_department, ( SELECT COUNT(department_id)
+											  FROM students
+                                              WHERE Departments.department_id = Students.department_id
+											) AS "bolumdeki ogrenci sayisi"
+FROM departments;
+
+
+
+
+
+
+
+
+
 
 
 
